@@ -28,26 +28,7 @@ O sistema também permite o **controle remoto de atuadores** (LED e Buzzer), dem
 O projeto é estruturado em quatro camadas:
 
 ```
-┌─────────────────────────────────────────────┐
-│         Camada de Aplicação                 │
-│   Dashboard · Grafana / Freeboard           │
-└────────────────────┬────────────────────────┘
-                     │ NGSIv2 / REST
-┌────────────────────▼────────────────────────┐
-│         Camada FIWARE — Back-end IoT         │
-│  IoT Agent MQTT → Orion Context Broker      │
-│  STH-Comet → MongoDB (histórico + contexto) │
-└────────────────────┬────────────────────────┘
-                     │ MQTT subscribe
-┌────────────────────▼────────────────────────┐
-│     Camada de Transporte — MQTT Broker      │
-│           Mosquitto · porta 1883            │
-└────────────────────┬────────────────────────┘
-                     │ MQTT publish
-┌────────────────────▼────────────────────────┐
-│      Camada IoT — Dispositivo de Borda      │
-│  ESP32 + DHT22 + LDR + LED + Buzzer         │
-└─────────────────────────────────────────────┘
+![Arquitetura CP5 EDGE](drawio.png)
 ```
 
 ---
