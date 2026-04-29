@@ -27,9 +27,8 @@ O sistema também permite o **controle remoto de atuadores** (LED e Buzzer), dem
 
 O projeto é estruturado em quatro camadas:
 
-```
+
 ![Arquitetura CP5 EDGE](drawio.png)
-```
 
 ---
 
