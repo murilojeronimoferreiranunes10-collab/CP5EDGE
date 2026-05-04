@@ -1,0 +1,1063 @@
+{
+  "info": {
+    "_postman_id": "d93a520e-74fe-417f-896d-8c277e0470f1",
+    "name": "CP5-PostmanCollection",
+    "description": "Coleção corrigida: bodies sem comentários JS, atributos humidity/temperature adicionados ao dispositivo, subscrições para os 3 atributos, queries STH-Comet para os 3 sensores.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53254351",
+    "_collection_link": "https://go.postman.co/collection/53254351-d93a520e-74fe-417f-896d-8c277e0470f1?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "🔧 IOT Agent MQTT",
+      "item": [
+        {
+          "name": "1.1 Health Check — IoT Agent",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/about",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "about"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Provisioning a Service Group for MQTT",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"services\": [\n    {\n      \"apikey\": \"TEF\",\n      \"cbroker\": \"http://{{url}}:1026\",\n      \"entity_type\": \"Thing\",\n      \"resource\": \"\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:4041/iot/services",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.1 Health Check — Services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/services",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.2 Delete Service Group",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/services/?resource=&apikey=TEF",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "services",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "resource",
+                  "value": ""
+                },
+                {
+                  "key": "apikey",
+                  "value": "TEF"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Provisioning Smart Lamp (com humidity e temperature)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"devices\": [\n    {\n      \"device_id\": \"lamp001\",\n      \"entity_name\": \"urn:ngsi-ld:Lamp:001\",\n      \"entity_type\": \"Lamp\",\n      \"protocol\": \"PDI-IoTA-UltraLight\",\n      \"transport\": \"MQTT\",\n      \"commands\": [\n        { \"name\": \"on\",  \"type\": \"command\" },\n        { \"name\": \"off\", \"type\": \"command\" }\n      ],\n      \"attributes\": [\n        { \"object_id\": \"s\", \"name\": \"state\",       \"type\": \"Text\"    },\n        { \"object_id\": \"l\", \"name\": \"luminosity\",  \"type\": \"Integer\" },\n        { \"object_id\": \"h\", \"name\": \"humidity\",    \"type\": \"Float\"   },\n        { \"object_id\": \"t\", \"name\": \"temperature\", \"type\": \"Float\"   }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:4041/iot/devices",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Registering Smart Lamp Commands",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Lamp Commands\",\n  \"dataProvided\": {\n    \"entities\": [\n      { \"id\": \"urn:ngsi-ld:Lamp:001\", \"type\": \"Lamp\" }\n    ],\n    \"attrs\": [\"on\", \"off\"]\n  },\n  \"provider\": {\n    \"http\": { \"url\": \"http://{{url}}:4041\" },\n    \"legacyForwarding\": true\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/registrations",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. List all Devices Provisioned",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/devices",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "devices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6. Switching on the Smart Lamp",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"on\": {\n    \"type\": \"command\",\n    \"value\": \"\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:Lamp:001",
+                "attrs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7. Result — Luminosity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs/luminosity",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:Lamp:001",
+                "attrs",
+                "luminosity"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.1 Result — Humidity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs/humidity",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:Lamp:001",
+                "attrs",
+                "humidity"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.2 Result — Temperature",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs/temperature",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:Lamp:001",
+                "attrs",
+                "temperature"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8. Result — State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs/state",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:Lamp:001",
+                "attrs",
+                "state"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9. Delete Smart Lamp — IoT Agent",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/devices/lamp001",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "4041",
+              "path": [
+                "iot",
+                "devices",
+                "lamp001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10. Delete Smart Lamp — Orion",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:Lamp:001"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📈 STH-Comet (Histórico)",
+      "item": [
+        {
+          "name": "1. Health Check — STH-Comet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:8666/version",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "8666",
+              "path": [
+                "version"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Subscribe — Luminosity + Humidity + Temperature",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Notify STH-Comet — luminosity, humidity, temperature\",\n  \"subject\": {\n    \"entities\": [\n      {\n        \"id\": \"urn:ngsi-ld:Lamp:001\",\n        \"type\": \"Lamp\"\n      }\n    ],\n    \"condition\": {\n      \"attrs\": [\"luminosity\", \"humidity\", \"temperature\"]\n    }\n  },\n  \"notification\": {\n    \"http\": {\n      \"url\": \"http://{{url}}:8666/notify\"\n    },\n    \"attrs\": [\"luminosity\", \"humidity\", \"temperature\"],\n    \"attrsFormat\": \"legacy\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/subscriptions",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "subscriptions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Request History — Luminosity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:8666/STH/v1/contextEntities/type/Lamp/id/urn:ngsi-ld:Lamp:001/attributes/luminosity?lastN=30",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "8666",
+              "path": [
+                "STH",
+                "v1",
+                "contextEntities",
+                "type",
+                "Lamp",
+                "id",
+                "urn:ngsi-ld:Lamp:001",
+                "attributes",
+                "luminosity"
+              ],
+              "query": [
+                {
+                  "key": "lastN",
+                  "value": "30",
+                  "description": "Últimos N registros"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.1 Request History — Humidity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:8666/STH/v1/contextEntities/type/Lamp/id/urn:ngsi-ld:Lamp:001/attributes/humidity?lastN=30",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "8666",
+              "path": [
+                "STH",
+                "v1",
+                "contextEntities",
+                "type",
+                "Lamp",
+                "id",
+                "urn:ngsi-ld:Lamp:001",
+                "attributes",
+                "humidity"
+              ],
+              "query": [
+                {
+                  "key": "lastN",
+                  "value": "30",
+                  "description": "Últimos N registros"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.2 Request History — Temperature",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:8666/STH/v1/contextEntities/type/Lamp/id/urn:ngsi-ld:Lamp:001/attributes/temperature?lastN=30",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "8666",
+              "path": [
+                "STH",
+                "v1",
+                "contextEntities",
+                "type",
+                "Lamp",
+                "id",
+                "urn:ngsi-ld:Lamp:001",
+                "attributes",
+                "temperature"
+              ],
+              "query": [
+                {
+                  "key": "lastN",
+                  "value": "30",
+                  "description": "Últimos N registros"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. List all Subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/subscriptions",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "subscriptions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🌐 Orion Context Broker",
+      "item": [
+        {
+          "name": "1. Version",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:1026/version",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "version"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Create Entity (iot com temperature + humidity)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"urn:ngsi-ld:entity:001\",\n  \"type\": \"iot\",\n  \"temperature\": {\n    \"type\": \"Float\",\n    \"value\": 0\n  },\n  \"humidity\": {\n    \"type\": \"Float\",\n    \"value\": 0\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Get All Entities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Update — Temperature + Humidity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"temperature\": {\n    \"type\": \"Float\",\n    \"value\": 35\n  },\n  \"humidity\": {\n    \"type\": \"Float\",\n    \"value\": 60\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001/attrs",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:entity:001",
+                "attrs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. Selective Update — Temperature",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "95"
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001/attrs/temperature/value",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:entity:001",
+                "attrs",
+                "temperature",
+                "value"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6. Selective Update — Humidity",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain",
+                "type": "text"
+              },
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "10"
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001/attrs/humidity/value",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:entity:001",
+                "attrs",
+                "humidity",
+                "value"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7. Delete Entity",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "fiware-service",
+                "value": "smart",
+                "type": "text"
+              },
+              {
+                "key": "fiware-servicepath",
+                "value": "/",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "port": "1026",
+              "path": [
+                "v2",
+                "entities",
+                "urn:ngsi-ld:entity:001"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": "35.173.250.234",
+      "description": "IP do servidor FIWARE — altere conforme necessário"
+    }
+  ]
+}
